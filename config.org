@@ -9,6 +9,7 @@
   - [[#package-manager][Package Manager]]
   - [[#load-evil-mode-and-allow-use-package-support][Load Evil Mode and allow use-package support]]
   - [[#general-keybindings][General Keybindings]]
+- [[#tabs][Tabs]]
 - [[#move-window][Move Window]]
 - [[#appearance][Appearance]]
   - [[#theme][Theme]]
@@ -22,7 +23,6 @@
 - [[#org-mode][ORG MODE]]
   - [[#enable-table-of-contents][Enable Table of Contents]]
   - [[#enable-org-bullets][Enable Org Bullets]]
-  - [[#disable-electric-indent][Disable Electric Indent]]
 - [[#shells-and-terminals][SHELLS AND TERMINALS]]
   - [[#vterm][Vterm]]
   - [[#vterm-toggle][Vterm-toggle]]
@@ -187,7 +187,16 @@
       "w J" '(buf-move-down :wk "Buffer move down")
       "w K" '(buf-move-up :wk "Buffer move up")
       "w L" '(buf-move-right :wk "Buffer move right"))
+
+    (dg/leader-keys
+      "l" '(:ignore t :wk "LSP")
+      "l d" '(lsp-describe-thing-at-point :wk "Describe thing"))
     )
+#+end_src
+
+* Tabs
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
 #+end_src
 
 * Move Window
@@ -429,12 +438,12 @@
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
-** Disable Electric Indent
-Fixes annoying indentation in source blocks
+# ** Disable Electric Indent
+# Fixes annoying indentation in source blocks
 
-#+begin_src emacs-lisp
-  (electric-indent-mode -1)
-#+end_src
+# #+begin_src emacs-lisp
+#   (electric-indent-mode -1)
+# #+end_src
 
 Use <s to make a source block
 #+begin_src emacs-lisp
@@ -502,6 +511,10 @@ For editing files that require sudo priveleges
     :init
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (setq lsp-keymap-prefix "C-c l")
+    :config
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-ui-doc-show-with-cursor nil)
+    (setq lsp-ui-doc-show-with-mouse nil)
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
            (c-mode . lsp)
            (c++-mode . lsp)
